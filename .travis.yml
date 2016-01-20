@@ -1,0 +1,24 @@
+language: python
+sudo: false
+python:
+  - "2.7"
+
+install:
+  - pip install -U twine
+  - make install
+  - ./env/bin/pip install coveralls
+
+script:
+  - make checkstyle
+  - make test
+
+after_success:
+  - ./env/bin/coveralls
+
+notifications:
+  email: false
+  irc:
+    channels:
+      - secure: "H5jEFtmmt5pWct/4Usr7sVmCm9bt2ffozklsjZEv3GHtJ/WQrsQEHlwsj9ID+nUKeRmCzs/9ZyuJQE5ka8yP4aQJiN8W1ofB/dXyDhSgSyLp8vxL7LEXMTkH0YeqPSpF5u6V1TybUKkyRCAdornfHbI3lWm69hNp2eEJWqlXnebg94ZTDT6H/cbI6G9IAD7b4zKwXXZvGFHDc3s3251hrqVQseK2QlCvjJz1XVl8Lys61zy4bH4jiNAWZV1TaqayGfo82BcPbgoqXXYclNYvEvl3bJwqPGcxUFf/YKjOhJj2R9HxerZ3CBbsN83JA4EW81OfSuG+I74NYQZirq8pKB3bn6vKji+mDnOCEBE32qFrKr7oo0KPmpVO8cPizKsm779FaeoLnVNeRtupTp9g2HhwftboEbzuIdbQWPTRSniHumJnVFmPigf0n8KvCEMBWnxgO5zYfj5tYqccyKrybn2PGmov4SjP0z16Y8BX7QlTeZ2KyF/opejDYFEyRNJidvKy1kp992wXnMWm+rOWYOWPd9IV7MrwO0LG+R06FcAQGzIayukOEyR0P6GsrBn4kH+f1CcuxZEBEg1mqZh5y7EFiej0N+31SPUQ/5HXOB5YLFjFzGeWzeIOgEdFRkPh/6hEbbZ2cbvtOuKs1O9h4Cb0LsgIBDhggOEMAin8stY="
+    on_success: "change"
+    on_failure: "change"
