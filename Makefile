@@ -18,10 +18,12 @@ guard-%:
 clean:
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;
 	rm -f .coverage
+	rm -rf lambda.zip
 
 .PHONY: clean-all
 clean-all: clean
 	rm -rf env
+	rm -rf build
 
 env: clean
 	test -d $(ENV) || virtualenv $(ENV)
@@ -48,6 +50,16 @@ test: install
 server:
 	$(ENV)/bin/python server.py 127.0.0.1 8080
 
+.PHONY: lambda
+lambda: env
+	rm -rf build
+	mkdir build
+	$(ENV)/bin/pip install -r requirements-dev.txt -t build
+	cp -R irc_hooky build/
+	chmod -R a+r build/*
+	find . -name "*.pyc" -exec /bin/rm -rf {} \;
+	cd build; zip -Xr ../lambda.zip *
+
 # e.g. PART=major make release
 # e.g. PART=minor make release
 # e.g. PART=patch make release
@@ -55,4 +67,3 @@ server:
 release: guard-PART
 	$(ENV)/bin/bumpversion $(PART)
 	@echo "Now manually run: git push && git push --tags"
-
