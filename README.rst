@@ -13,3 +13,7 @@ IRC Hooky
     :alt: Software License
 
 Send custom webhook-triggered notifications to IRC using a serverless architecture.
+
+Documentation available at `https://irchooky.org`__.
+
+__ https://irchooky.org

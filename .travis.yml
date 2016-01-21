@@ -3,6 +3,13 @@ sudo: false
 python:
   - "2.7"
 
+env:
+  global:
+    - secure: "NRMghzfgS0W5UJ3wDNyjAPbhrB42m3A2agP9nRmZTOyqvdbDC3l20wzfZETlF6siJkHA4ive5dWqpNUjUmpg41UJgXLmbWLRH433A3SnQDHDMBn8pP5uw6c3oO5TCzGCFGlMH+YvEOj+7Zwjb8KAbh2rB1wVVhH8hg5seHCidguzB+432PFkkSOACsEFtJ9nDNqAxrYK6MuElBIz0MasJhtNjFXm//10U9D5vKF1TqhLq2ndvPOwsBxt1AytGTfr0Gleyfwg/1yI3RR80aaFjyfkbDT0keWmUr5L1wf8dmAKA+5ZtaH+cC/dgaFHJFbBQnRY2fSO2pI38Cik+7Fjvq9DIPKo8zY30mtpAgiUHi2+qE67ahFZ9cC+3RPAE81rDfk9msX16Ixotl10a8Wmhbhpdr/XrU1NvsOpKXp5Cl4A56+NSpWLnWLgonK2CXTFeIN9D79ReQKUwqpmP3qVmjZj/LiN62De8BBzpQ3VSMQDlfYTlpWnQ7fdv5KS7rktLhujnn4WoGFbGgwD/kdGFYBqvUfH4OLO6wsYIZ0r91ewmrWwSyAcZWt6zw0CD2xEtaVeV16vnGNlfB6UrCNeZFZiaVZkXGDtFgJhdXDXBzR36G4QbcdhmV6fCLCpIoT0EvT/p/sJltehmBj3P4MVdgkYUhYqP/7QizIdqrdczYM="
+    - secure: "tAP6NZm/Q+lG08D+JzxgviY51LjIOlZDMcIXY7Wk/U8nlSGRWozpv5k7T90Qs1cgZSP3yRnCoRrBspC0vEGsZ32MKednWuRig0w5yTfEwtcqHDy16zkdFa7deVlq8RVJgPcsL20YGQAFCGxBt7+V9uW/IKARa6Xek6W9LRBjtsriwhOIcz+Rrxje282hZqg6PoKsoABBQV+z2R5GrixeHMz8nYp9MIxYB4i/fU1HAQMxDs0FSCQ5wBDvnjtWYJyFR6jJgd+dIfpmT+woaL8jo5UIlDIjA3Scuyk3gJ36/PAxp58QJbTk6y0tqsjXdTOwkqnf+756Pux9/NBsOniMk7yeHSgtv1vU+cLQdagoq7Z7dCOeBd1zdYPz9pRACYP9peviaUTTMuNAf0yJHfJbIncWxcOO6AHZFLcCOdsyK99MvIFywvDSuBdtK8C0I5Lyt8z/GycK2kMg6gB3gBLNlrs7qMx+qRvw16Cqy8PYBmfRYiGkL5oITfwZQIHFcjrQRZE0LoTmvQF8xbELYtYBUKqnf+9JbxVIp/joeqgOfAWSVltS2f1Iuqty8wmlrvwqHBJW+CvNPaIANGPhQu+oyk9o1zF3fxQ3JF2uLuOqEFLxIsV7JcIiOa1W4oIoMt7cZ853IPMC9/0S+S71Sr6DK465hCyxZ1r2wkqF/A9arco="
+    - 'AWS_ACCESS_KEY_ID=AKIAI6H27S3XIBHPFZIQ'
+    - 'GOOGLE_ANALYTICS_ID=UA-70495014-3'
+
 install:
   - pip install -U twine
   - make install
@@ -11,6 +18,7 @@ install:
 script:
   - make checkstyle
   - make test
+  - 'make docs'
 
 after_success:
   - ./env/bin/coveralls
@@ -25,13 +33,21 @@ notifications:
 
 before_deploy:
   - make lambda
+  - 'bundle install'
+  - 'make docs'
 
 deploy:
-  provider: releases
-  api_key:
-    secure: "SuLg+4btuMDuB4pSuRvKl7QCDNj8AFlGxHacndogBIpmbTFaVlZL+7upyK/F06lXVQz/UrUOh+CoU2FbQ07TbPCxdUej8V2QUIPuk5uaAo+Aszdn/2AoIDQBxbMIcfpc1p8yBe8PN4WcEadpqhUYjS6r6nxecDj1NqIIYv+Gnxsb6q7kfkfugjiRpcylD4byekymgKikC0a8bdongELAohaEAzSyqxi0WsSmsp+/FLQBeMhcW9LbFJ4jbO0hB/fEbvA5+4rH4Nd4wUhUklqVIlrvlVmwbSMmApjrLl/xmmVqt9+sRVg9cJM/ECxiY2g4b5Z1W+NkdltYasPh23TXE0f9iKq0S2Z1VUXPC2/iz8t4UvHrgSnmJXUHFw5r8SaUVj8+hyBZDiECE/a2osLMPhR1vmXfxEHgvfE3SeBq6T0zfnS+OnXUcsKEFmz49jPnOYKwjtGIpHQW/oYCLdKBnr1OWOvCb3oBExhQTqol5Ta9kCBLAOH966gFR7HeztmrPvreNRiz39nUj15qfEMXhxVg5hyOtiLvIRZC/Z80oXHKnqJWDDWNYP4Qrs3Qwc0kpZzBtvBd/n//FZHqo/omO8XrvWfTV1byy7CCLLI1qd8FMxDwWVvW6ZyzRPjxxt6qy4v5d77giY4xM8cVPtLCXz2e8EYNZhZF1t9Y2HKQWH8="
-  file: lambda.zip
-  skip_cleanup: true
-  on:
-    repo: marvinpinto/irc-hooky
-    tags: true
+  - provider: 'releases'
+    api_key:
+      secure: "SuLg+4btuMDuB4pSuRvKl7QCDNj8AFlGxHacndogBIpmbTFaVlZL+7upyK/F06lXVQz/UrUOh+CoU2FbQ07TbPCxdUej8V2QUIPuk5uaAo+Aszdn/2AoIDQBxbMIcfpc1p8yBe8PN4WcEadpqhUYjS6r6nxecDj1NqIIYv+Gnxsb6q7kfkfugjiRpcylD4byekymgKikC0a8bdongELAohaEAzSyqxi0WsSmsp+/FLQBeMhcW9LbFJ4jbO0hB/fEbvA5+4rH4Nd4wUhUklqVIlrvlVmwbSMmApjrLl/xmmVqt9+sRVg9cJM/ECxiY2g4b5Z1W+NkdltYasPh23TXE0f9iKq0S2Z1VUXPC2/iz8t4UvHrgSnmJXUHFw5r8SaUVj8+hyBZDiECE/a2osLMPhR1vmXfxEHgvfE3SeBq6T0zfnS+OnXUcsKEFmz49jPnOYKwjtGIpHQW/oYCLdKBnr1OWOvCb3oBExhQTqol5Ta9kCBLAOH966gFR7HeztmrPvreNRiz39nUj15qfEMXhxVg5hyOtiLvIRZC/Z80oXHKnqJWDDWNYP4Qrs3Qwc0kpZzBtvBd/n//FZHqo/omO8XrvWfTV1byy7CCLLI1qd8FMxDwWVvW6ZyzRPjxxt6qy4v5d77giY4xM8cVPtLCXz2e8EYNZhZF1t9Y2HKQWH8="
+    file: 'lambda.zip'
+    skip_cleanup: true
+    on:
+      repo: 'marvinpinto/irc-hooky'
+      tags: true
+  - provider: 'script'
+    script: 'bundle exec s3_website push --verbose'
+    skip_cleanup: true
+    on:
+      branch: 'master'
+      repo: 'marvinpinto/irc-hooky'
