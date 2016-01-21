@@ -54,7 +54,7 @@ server:
 lambda: env
 	rm -rf build
 	mkdir build
-	$(ENV)/bin/pip install -r requirements-dev.txt -t build
+	$(ENV)/bin/pip install -r requirements.txt -t build
 	cp -R irc_hooky build/
 	chmod -R a+r build/*
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;
