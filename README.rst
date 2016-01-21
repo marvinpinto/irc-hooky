@@ -12,4 +12,4 @@ IRC Hooky
     :target: LICENSE.txt
     :alt: Software License
 
-Send custom webhook-triggered notifications to IRC.
+Send custom webhook-triggered notifications to IRC using a serverless architecture.

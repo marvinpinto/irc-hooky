@@ -1,4 +1,5 @@
-ENV=./env
+current_dir := $(shell pwd)
+ENV=$(current_dir)/env
 
 all: help
 
@@ -19,6 +20,7 @@ clean:
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;
 	rm -f .coverage
 	rm -rf lambda.zip
+	rm -rf docs/_build
 
 .PHONY: clean-all
 clean-all: clean
@@ -59,6 +61,10 @@ lambda: env
 	chmod -R a+r build/*
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;
 	cd build; zip -Xr ../lambda.zip *
+
+.PHONY: docs
+docs: install
+	make -C docs html SPHINXBUILD="$(ENV)/bin/sphinx-build" SPHINXOPTS="-W"
 
 # e.g. PART=major make release
 # e.g. PART=minor make release
