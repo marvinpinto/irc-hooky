@@ -33,3 +33,8 @@ this out!
 .. toctree::
    :hidden:
    :maxdepth: 2
+
+   faq
+   lambda
+   api_gateway
+   lambda_update
