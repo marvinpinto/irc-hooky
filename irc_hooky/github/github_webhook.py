@@ -8,7 +8,7 @@ class GithubWebhook(Webhook):
         super(GithubWebhook, self).__init__(event, context)
 
     def process_event(self):
-        payload = self.event.get('gh-payload')
+        payload = self.event.get('payload')
         if not payload:
             self.log.error("Received an empty github payload")
             return
