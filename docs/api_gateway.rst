@@ -132,8 +132,20 @@ template above needs to be converted and supplied into the
             "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"gh-payload\": $input.json(\"$\") }"
         }'
 
-With that in place, the last thing we need to do here is to return 200's back
-to the caller.
+With that in place, the next thing we need to do here is to create a 200 method
+response:
+
+.. code-block:: bash
+
+    aws apigateway put-method-response \
+        --region "$AWS_DEFAULT_REGION" \
+        --rest-api-id "$REST_API_ID" \
+        --resource-id "$REST_GITHUB_RESOURCE_ID" \
+        --http-method "POST" \
+        --status-code 200 \
+        --response-models '{"application/json":"Empty"}'
+
+And then return that 200 back to the caller:
 
 .. code-block:: bash
 
