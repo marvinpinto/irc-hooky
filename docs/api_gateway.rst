@@ -1,8 +1,11 @@
 API Gateway Setup
 =================
 
-This section might come across as a bit intense, what will all the copy-pasta
-and all but I assure you it will be well worth it!
+The instructions in this section will walk you through setting up an API
+Gateway endpoint and wiring it into the IRC Hooky Lambda function.
+
+These instructions might come across as a bit intense, what will all the
+copy-pasta and all but I assure you it will be well worth it!
 
 The good news is that you will only need to go through this once (for each
 endpoint) as updating the Lambda Function for new releases is much simpler!
@@ -19,8 +22,9 @@ variables which we'll use for all the subsequent steps.
 
     export AWS_ACCESS_KEY_ID=<YOUR AWS ACCESS KEY>
     export AWS_SECRET_ACCESS_KEY=<YOUR AWS SECRET KEY>
+    export REST_ENDPOINT_NAME=myendpoint
     export AWS_DEFAULT_REGION=us-east-1
-    export LAMBDA_FUNCTION_ARN=<YOUR LAMBDA FUNCTION ARN>
+    export LAMBDA_FUNCTION_ARN="<YOUR LAMBDA FUNCTION ARN>"
 
 Note that if you don't have the ARN for your Lambda function handy, you should
 be able to find it using the following:
@@ -30,8 +34,8 @@ be able to find it using the following:
     aws lambda list-functions
 
 
-API Gateway Setup
------------------
+New API Gateway Setup
+---------------------
 
 Let's get started by creating a new API Gateway instance.
 
@@ -62,42 +66,44 @@ export it as an environment variable.
 
     export REST_ROOT_RESOURCE_ID="..."
 
-Create a ``/github`` Resource endpoint:
+
+New Endpoint Setup
+------------------
+
+Now that we have an API Gateway instance to use, let's add a new endpoint to
+it. To simplify these instructions, we're going to assume that the name for
+this endpoint is going to be the value of the ``REST_ENDPOINT_NAME``
+environment variable you set earlier.
+
+Create a new resource endpoint:
 
 .. code-block:: bash
 
     aws apigateway create-resource \
         --rest-api-id "$REST_API_ID" \
         --parent-id "$REST_ROOT_RESOURCE_ID" \
-        --path-part "github"
+        --path-part "${REST_ENDPOINT_NAME}"
 
 Take note of the ``id`` value from the above command's output and export it as
 an environment variable.
 
 .. code-block:: bash
 
-    export REST_GITHUB_RESOURCE_ID="..."
+    export REST_ENDPOINT_RESOURCE_ID="..."
 
-Now that we have a ``/github`` endpoint, let's make sure that we can accept
-POST requests on it.
+Now that we have our endpoint setup, let's make sure that we can accept POST
+requests on it.
 
 .. code-block:: bash
 
     aws apigateway put-method \
         --rest-api-id "$REST_API_ID" \
-        --resource-id "$REST_GITHUB_RESOURCE_ID" \
+        --resource-id "$REST_ENDPOINT_RESOURCE_ID" \
         --http-method "POST" \
         --authorization-type "none"
 
-Awesome! Let's recap where we're at:
-
-- We have an API Gateway instance configured and ready to use
-- We've created a ``/github`` endpoint that is ready to accept POST requests
-
 The next thing we have to do here is to have API Gateway trigger the Lambda
-function every time we receive a POST request on the ``/github`` endpoint.
-
-Moving on.
+function every time we receive a POST request on this endpoint.
 
 One of the things that API Gateway will need to do is to pass in a few
 parameters into the Lambda function. API Gateway accomplishes this with a
@@ -110,7 +116,7 @@ something like:
         "X-Hub-Signature": $input.params().header.get("X-Hub-Signature"),
         "X-Github-Event": $input.params().header.get("X-Github-Event"),
         "resource-path": $context.resourcePath,
-        "gh-payload": $input.json("$")
+        "payload": $input.json("$")
     }
 
 __ http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html
@@ -124,13 +130,13 @@ template above needs to be converted and supplied into the
     aws apigateway put-integration \
         --region "$AWS_DEFAULT_REGION" \
         --rest-api-id "$REST_API_ID" \
-        --resource-id "$REST_GITHUB_RESOURCE_ID" \
+        --resource-id "$REST_ENDPOINT_RESOURCE_ID" \
         --http-method "POST" \
         --integration-http-method "POST" \
         --type "AWS" \
         --uri "arn:aws:apigateway:${AWS_DEFAULT_REGION}:lambda:path/2015-03-31/functions/${LAMBDA_FUNCTION_ARN}/invocations" \
         --request-templates '{
-            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"resource-path\": \"$context.resourcePath", \"gh-payload\": $input.json(\"$\") }"
+            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"resource-path\": \"$context.resourcePath\", \"payload\": $input.json(\"$\") }"
         }'
 
 With that in place, the next thing we need to do here is to create a 200 method
@@ -141,7 +147,7 @@ response:
     aws apigateway put-method-response \
         --region "$AWS_DEFAULT_REGION" \
         --rest-api-id "$REST_API_ID" \
-        --resource-id "$REST_GITHUB_RESOURCE_ID" \
+        --resource-id "$REST_ENDPOINT_RESOURCE_ID" \
         --http-method "POST" \
         --status-code 200 \
         --response-models '{"application/json":"Empty"}'
@@ -153,7 +159,7 @@ And then return that 200 back to the caller:
     aws apigateway put-integration-response \
         --region "$AWS_DEFAULT_REGION" \
         --rest-api-id "$REST_API_ID" \
-        --resource-id "$REST_GITHUB_RESOURCE_ID" \
+        --resource-id "$REST_ENDPOINT_RESOURCE_ID" \
         --http-method "POST" \
         --status-code 200 \
         --response-templates '{"application/json": ""}'
@@ -206,4 +212,4 @@ You should be able to test it with a POST request with something like:
 
     curl -X POST \
         -d '{"hello": "hi"}' \
-        https://${REST_API_ID}.execute-api.${AWS_DEFAULT_REGION}.amazonaws.com/prod/github
+        https://${REST_API_ID}.execute-api.${AWS_DEFAULT_REGION}.amazonaws.com/prod/${REST_ENDPOINT_NAME}

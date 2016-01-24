@@ -13,7 +13,7 @@ def handle_github_hook(payload, headers):
     event = {
         "X-Hub-Signature": headers.get("X-Hub-Signature"),
         "X-Github-Event": headers.get("X-Github-Event"),
-        "gh-payload": payload
+        "payload": payload
     }
     gh_handler(event, {})
 

@@ -7,7 +7,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
     def test_empty_payload(self):
         payload = {}
         event = {
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
@@ -19,7 +19,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
             "foo": "bar"
         }
         event = {
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
@@ -34,7 +34,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
         }
         event = {
             "X-Github-Event": "issues",
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
@@ -54,7 +54,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
         }
         event = {
             "X-Github-Event": "issues",
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
@@ -77,7 +77,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
         }
         event = {
             "X-Github-Event": "issues",
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
@@ -105,7 +105,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
         }
         event = {
             "X-Github-Event": "issues",
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
@@ -136,7 +136,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
         }
         event = {
             "X-Github-Event": "issues",
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
@@ -168,7 +168,7 @@ class TestGithubWebhookIssues(unittest.TestCase):
         }
         event = {
             "X-Github-Event": "issues",
-            "gh-payload": payload
+            "payload": payload
         }
         gh = GithubWebhook(event, {})
         self.assertEqual(gh.irc_message, "")
