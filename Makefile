@@ -19,13 +19,13 @@ guard-%:
 clean:
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;
 	rm -f .coverage
-	rm -rf lambda.zip
-	rm -rf docs/_build
 
 .PHONY: clean-all
 clean-all: clean
 	rm -rf env
 	rm -rf build
+	rm -rf lambda.zip
+	rm -rf docs/_build
 
 env: clean
 	test -d $(ENV) || virtualenv $(ENV)
