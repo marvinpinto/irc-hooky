@@ -109,6 +109,7 @@ something like:
     {
         "X-Hub-Signature": $input.params().header.get("X-Hub-Signature"),
         "X-Github-Event": $input.params().header.get("X-Github-Event"),
+        "resource-path": $context.resourcePath,
         "gh-payload": $input.json("$")
     }
 
@@ -129,7 +130,7 @@ template above needs to be converted and supplied into the
         --type "AWS" \
         --uri "arn:aws:apigateway:${AWS_DEFAULT_REGION}:lambda:path/2015-03-31/functions/${LAMBDA_FUNCTION_ARN}/invocations" \
         --request-templates '{
-            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"gh-payload\": $input.json(\"$\") }"
+            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"resource-path\": \"$context.resourcePath", \"gh-payload\": $input.json(\"$\") }"
         }'
 
 With that in place, the next thing we need to do here is to create a 200 method
