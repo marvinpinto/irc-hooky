@@ -1,5 +1,5 @@
 import unittest
-from irc_hooky.github.main import process_github_issue_event
+from irc_hooky.entrypoint import process_github_issue_event
 
 
 class TestProcessIssueEvent(unittest.TestCase):

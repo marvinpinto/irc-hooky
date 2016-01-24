@@ -111,7 +111,7 @@ Create the Lambda function in a 128MB container and a 10-second timeout.
         --function-name "irc-hooky" \
         --runtime "python2.7" \
         --role "$LAMBDA_BASIC_ROLE_ARN" \
-        --handler "irc_hooky.github.main" \
+        --handler "irc_hooky/entrypoint.handler" \
         --timeout 10 \
         --memory-size 128 \
         --publish \
