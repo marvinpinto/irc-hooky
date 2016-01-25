@@ -116,6 +116,9 @@ something like:
         "X-Hub-Signature": $input.params().header.get("X-Hub-Signature"),
         "X-Github-Event": $input.params().header.get("X-Github-Event"),
         "resource-path": $context.resourcePath,
+        "irc-server": ${stageVariables.irc_server},
+        "irc-port": ${stageVariables.irc_port},
+        "irc-channel": ${stageVariables.irc_channel},
         "payload": $input.json("$")
     }
 
@@ -136,7 +139,7 @@ template above needs to be converted and supplied into the
         --type "AWS" \
         --uri "arn:aws:apigateway:${AWS_DEFAULT_REGION}:lambda:path/2015-03-31/functions/${LAMBDA_FUNCTION_ARN}/invocations" \
         --request-templates '{
-            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"resource-path\": \"$context.resourcePath\", \"payload\": $input.json(\"$\") }"
+            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"resource-path\": \"$context.resourcePath\", \"irc-server\": \"${stageVariables.irc_server}\", \"irc-port\": \"${stageVariables.irc_port}\", \"irc-channel\": \"${stageVariables.irc_channel}\", \"payload\": $input.json(\"$\") }"
         }'
 
 With that in place, the next thing we need to do here is to create a 200 method
@@ -198,7 +201,12 @@ __ http://docs.aws.amazon.com/apigateway/latest/developerguide/stages.html
     aws apigateway create-deployment \
         --region "$AWS_DEFAULT_REGION" \
         --rest-api-id "$REST_API_ID" \
-        --stage-name "prod"
+        --stage-name "prod" \
+        --variables '{
+            "irc_server": "chat.freenode.net",
+            "irc_port": "6667",
+            "irc_channel": "##testtest"
+        }'
 
 And that should be it! Your new Lambda-backed API should be available at:
 
