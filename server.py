@@ -2,7 +2,7 @@ import BaseHTTPServer
 import sys
 import time
 import json
-from irc_hooky.github.main import handler as gh_handler
+from irc_hooky.entrypoint import handler
 
 
 HOST_NAME = sys.argv[1]
@@ -13,9 +13,13 @@ def handle_github_hook(payload, headers):
     event = {
         "X-Hub-Signature": headers.get("X-Hub-Signature"),
         "X-Github-Event": headers.get("X-Github-Event"),
+        "resource-path": "/github",
+        "irc-server": "chat.freenode.net",
+        "irc-port": 6667,
+        "irc-channel": "##testtest",
         "payload": payload
     }
-    gh_handler(event, {})
+    handler(event, {})
 
 
 class LocalIRCHooky(BaseHTTPServer.BaseHTTPRequestHandler):

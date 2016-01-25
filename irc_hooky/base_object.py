@@ -7,7 +7,7 @@ class BaseObject(object):
     __metaclass__ = ABCMeta
 
     def __init__(self, **kwargs):
-        self.log = logging.getLogger(__name__)
+        self.log = logging.getLogger("irchooky")
         for prop in self.properties:
             setattr(self, prop, kwargs.get(prop, ""))
 
