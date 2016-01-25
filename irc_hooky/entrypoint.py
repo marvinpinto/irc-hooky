@@ -23,7 +23,7 @@ def handle_github_event(event, context):
     irc_msg = gh.irc_message
     logger.info(irc_msg)
     send_irc_msg(server=event.get('irc-server'),
-                 port=event.get('irc-port'),
+                 port=int(event.get('irc-port')),
                  nickname=event.get('irc-nickname'),
                  channel=event.get('irc-channel'),
                  message=irc_msg)
