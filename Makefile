@@ -52,6 +52,10 @@ test: install
 server:
 	$(ENV)/bin/python server.py 127.0.0.1 8080
 
+.PHONY: ngrok
+ngrok:
+	ngrok http 127.0.0.1:8080
+
 .PHONY: lambda
 lambda: env
 	rm -rf build
