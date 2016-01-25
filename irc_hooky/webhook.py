@@ -7,7 +7,7 @@ class Webhook(object):
     __metaclass__ = ABCMeta
 
     def __init__(self, event, context):
-        self.log = logging.getLogger(__name__)
+        self.log = logging.getLogger("irchooky")
         self.event = event
         self.context = context
         self.irc_message = ""

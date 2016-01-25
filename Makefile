@@ -52,11 +52,17 @@ test: install
 server:
 	$(ENV)/bin/python server.py 127.0.0.1 8080
 
+.PHONY: ngrok
+ngrok:
+	ngrok http 127.0.0.1:8080
+
 .PHONY: lambda
 lambda: env
 	rm -rf build
 	mkdir build
 	$(ENV)/bin/pip install -r requirements.txt -t build
+	$(ENV)/bin/pip install --upgrade setuptools -t build
+	$(ENV)/bin/pip install --upgrade distribute -t build
 	cp -R irc_hooky build/
 	chmod -R a+r build/*
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;

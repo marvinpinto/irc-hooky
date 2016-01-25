@@ -2,7 +2,7 @@ import BaseHTTPServer
 import sys
 import time
 import json
-from irc_hooky.github.main import handler as gh_handler
+from irc_hooky.entrypoint import handler
 
 
 HOST_NAME = sys.argv[1]
@@ -13,9 +13,13 @@ def handle_github_hook(payload, headers):
     event = {
         "X-Hub-Signature": headers.get("X-Hub-Signature"),
         "X-Github-Event": headers.get("X-Github-Event"),
+        "resource-path": "/github",
+        "irc-server": "chat.freenode.net",
+        "irc-port": 6667,
+        "irc-channel": "##testtest",
         "payload": payload
     }
-    gh_handler(event, {})
+    return handler(event, {})
 
 
 class LocalIRCHooky(BaseHTTPServer.BaseHTTPRequestHandler):
@@ -25,15 +29,18 @@ class LocalIRCHooky(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
+        self.wfile.write("Nothing to see here!")
 
     def do_POST(self):
         length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(length)
         payload = json.loads(post_data)
         if (self.path == "/github"):
-            handle_github_hook(payload, self.headers)
+            result = handle_github_hook(payload, self.headers)
         self.send_response(200)
+        self.send_header("Content-type", "application/json")
         self.end_headers()
+        self.wfile.write(result)
 
 
 if __name__ == '__main__':
