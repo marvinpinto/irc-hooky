@@ -1,7 +1,9 @@
 import logging
 from irc_hooky.github.github_webhook import GithubWebhook
 from irc_hooky.irc_client import IRCClient
+import json
 
+__version__ = "0.0.1"
 logging.basicConfig()
 logger = logging.getLogger("irchooky")
 logger.setLevel(logging.INFO)
@@ -11,7 +13,7 @@ def handler(event, context):
     resource_path = event.get('resource-path')
     if resource_path == "/github":
         handle_github_event(event, context)
-    return "{success: true}"
+    return json.dumps({"version": __version__})
 
 
 def handle_github_event(event, context):
