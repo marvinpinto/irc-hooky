@@ -61,6 +61,8 @@ lambda: env
 	rm -rf build
 	mkdir build
 	$(ENV)/bin/pip install -r requirements.txt -t build
+	$(ENV)/bin/pip install --upgrade setuptools -t build
+	$(ENV)/bin/pip install --upgrade distribute -t build
 	cp -R irc_hooky build/
 	chmod -R a+r build/*
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;
