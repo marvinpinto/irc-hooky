@@ -101,7 +101,7 @@ Before creating the Lambda function, head on over to `IRC Hooky Releases`__
 page and download the the ``lambda.zip`` that corresponds to the most recent
 release.
 
-__ https://github.com/marvinpinto/irc-hooky/releases
+__ https://github.com/marvinpinto/irc-hooky/releases/latest
 
 Create the Lambda function in a 128MB container and a 10-second timeout.
 
