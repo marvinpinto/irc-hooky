@@ -7,7 +7,7 @@ class IRCClient(object):
     def __init__(self, network, port, nickname):
         self.log = logging.getLogger("irchooky")
         self.network = network
-        self.port = port
+        self.port = int(port)
         self.nickname = nickname
         self.server = None
         self.client = None
@@ -25,20 +25,17 @@ class IRCClient(object):
             self.server.connect(self.network,
                                 self.port,
                                 self.nickname)
-            return True
         except irc.client.ServerConnectionError as x:
             self.log.error(x)
-            return False
+            raise
 
     def send_msg(self, msg, channel):
         if not msg:
-            self.log.error("Invalid message")
-            return
+            raise Exception("Invalid message")
         self.message = msg
 
         if not channel:
-            self.log.error("Invalid channel name")
-            return
+            raise Exception("Invalid channel name")
         self.channel = channel
 
         self.server.add_global_handler("join", self.irc_on_join)
@@ -59,7 +56,7 @@ class IRCClient(object):
         connection.quit()
 
     def irc_on_passwdmismatch(self, connection, event):  # pragma: no cover
-        self.log.error("Password required")
+        raise Exception("IRC password required")
         self.has_quit = True
 
     def irc_on_connect(self, connection, event):  # pragma: no cover

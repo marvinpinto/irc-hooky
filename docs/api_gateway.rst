@@ -25,14 +25,19 @@ variables which we'll use for all the subsequent steps.
     export REST_ENDPOINT_NAME=myendpoint
     export AWS_DEFAULT_REGION=us-east-1
     export LAMBDA_FUNCTION_ARN="<YOUR LAMBDA FUNCTION ARN>"
+    SNS_TOPIC_ARN="<YOUR SNS TOPIC ARN>"
 
-Note that if you don't have the ARN for your Lambda function handy, you should
-be able to find it using the following:
+If you don't have your Lambda function ARN handy:
 
 .. code-block:: bash
 
     aws lambda list-functions
 
+Similar for the SNS topic ARN:
+
+.. code-block:: bash
+
+    aws sns list-topics
 
 New API Gateway Setup
 ---------------------
@@ -119,6 +124,7 @@ something like:
         "irc-server": ${stageVariables.irc_server},
         "irc-port": ${stageVariables.irc_port},
         "irc-channel": ${stageVariables.irc_channel},
+        "irchooky-sns-arn": ${stageVariables.irchooky_sns_arn},
         "payload": $input.json("$")
     }
 
@@ -139,7 +145,7 @@ template above needs to be converted and supplied into the
         --type "AWS" \
         --uri "arn:aws:apigateway:${AWS_DEFAULT_REGION}:lambda:path/2015-03-31/functions/${LAMBDA_FUNCTION_ARN}/invocations" \
         --request-templates '{
-            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"resource-path\": \"$context.resourcePath\", \"irc-server\": \"${stageVariables.irc_server}\", \"irc-port\": \"${stageVariables.irc_port}\", \"irc-channel\": \"${stageVariables.irc_channel}\", \"payload\": $input.json(\"$\") }"
+            "application/json": "{ \"X-Hub-Signature\": \"$input.params().header.get(\"X-Hub-Signature\")\", \"X-Github-Event\": \"$input.params().header.get(\"X-Github-Event\")\", \"resource-path\": \"$context.resourcePath\", \"irc-server\": \"${stageVariables.irc_server}\", \"irc-port\": \"${stageVariables.irc_port}\", \"irc-channel\": \"${stageVariables.irc_channel}\", \"irchooky-sns-arn\": \"${stageVariables.irchooky_sns_arn}\", \"payload\": $input.json(\"$\") }"
         }'
 
 With that in place, the next thing we need to do here is to create a 200 method
@@ -205,7 +211,8 @@ __ http://docs.aws.amazon.com/apigateway/latest/developerguide/stages.html
         --variables '{
             "irc_server": "chat.freenode.net",
             "irc_port": "6667",
-            "irc_channel": "##testtest"
+            "irc_channel": "##testtest",
+            "irchooky_sns_arn": "'$SNS_TOPIC_ARN'"
         }'
 
 And that should be it! Your new Lambda-backed API should be available at:

@@ -27,5 +27,5 @@ Finally update and deploy the new version of the Lambda function!
         --publish \
         --zip-file "fileb://lambda.zip"
 
-__ https://github.com/marvinpinto/irc-hooky/releases
+__ https://github.com/marvinpinto/irc-hooky/releases/latest
 __ https://aws.amazon.com/cli
