@@ -16,9 +16,9 @@ install:
   - ./env/bin/pip install coveralls
 
 script:
-  - make checkstyle
-  - make test
   - 'make docs'
+  - 'make checkstyle'
+  - 'make test'
 
 after_success:
   - ./env/bin/coveralls
