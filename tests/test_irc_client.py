@@ -19,18 +19,12 @@ class TestIRCClient(unittest.TestCase):
         self.assertEqual(self.client.nickname, "irchooky")
 
     def test_send_empty_msg(self):
-        self.client.send_msg("", "#channel")
-        self.assertEqual(self.client.main_loop.mock_calls,
-                         [])
-        self.assertEqual(self.client.server.mock_calls,
-                         [])
+        with self.assertRaises(Exception):
+            self.client.send_msg("", "#channel")
 
     def test_send_empty_channel(self):
-        self.client.send_msg("message", "")
-        self.assertEqual(self.client.main_loop.mock_calls,
-                         [])
-        self.assertEqual(self.client.server.mock_calls,
-                         [])
+        with self.assertRaises(Exception):
+            self.client.send_msg("message", "")
 
     def test_send_msg(self):
         self.client.send_msg("message", "#channel")

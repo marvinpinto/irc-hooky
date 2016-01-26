@@ -2,6 +2,7 @@ import BaseHTTPServer
 import sys
 import time
 import json
+import boto3
 from irc_hooky.entrypoint import handler
 
 
@@ -17,9 +18,23 @@ def handle_github_hook(payload, headers):
         "irc-server": "chat.freenode.net",
         "irc-port": 6667,
         "irc-channel": "##testtest",
+        "irchooky-sns-arn": get_sns_topic_arn("irc-hooky"),
         "payload": payload
     }
     return handler(event, {})
+
+
+def get_sns_topic_arn(search_string):
+    """
+    The purpose of this function is to avoid hardcoding an SNS ARN into the
+    event payload (above) for local testing.
+    """
+    client = boto3.client('sns')
+    response = client.list_topics()
+    for topic in response['Topics']:
+        if search_string in topic['TopicArn']:
+            return topic['TopicArn']
+    raise Exception("Could not find %s SNS topic ARN" % search_string)
 
 
 class LocalIRCHooky(BaseHTTPServer.BaseHTTPRequestHandler):
