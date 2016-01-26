@@ -41,9 +41,14 @@ First, the policy for our Lambda role:
               "Action": [
                 "logs:CreateLogGroup",
                 "logs:CreateLogStream",
-                "logs:PutLogEvents"
+                "logs:PutLogEvents",
+                "sns:Publish",
+                "sns:Subscribe"
               ],
-              "Resource": "arn:aws:logs:*:*:*"
+              "Resource": [
+                "arn:aws:logs:*:*:*",
+                "arn:aws:sns:*"
+                ]
             }
           ]
         }'
@@ -103,7 +108,7 @@ release.
 
 __ https://github.com/marvinpinto/irc-hooky/releases/latest
 
-Create the Lambda function in a 128MB container and a 10-second timeout.
+Create the Lambda function in a 128MB container and a 60-second timeout.
 
 .. code-block:: bash
 
@@ -112,7 +117,7 @@ Create the Lambda function in a 128MB container and a 10-second timeout.
         --runtime "python2.7" \
         --role "$LAMBDA_BASIC_ROLE_ARN" \
         --handler "irc_hooky/entrypoint.handler" \
-        --timeout 10 \
+        --timeout 60 \
         --memory-size 128 \
         --publish \
         --zip-file "fileb://lambda.zip"

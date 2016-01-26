@@ -36,5 +36,6 @@ this out!
 
    faq
    lambda
+   sns
    api_gateway
    lambda_update
