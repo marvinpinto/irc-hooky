@@ -3,7 +3,7 @@ from irc_hooky.github.github_webhook import GithubWebhook
 from irc_hooky.irc_client import IRCClient
 import json
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 logging.basicConfig()
 logger = logging.getLogger("irchooky")
 logger.setLevel(logging.INFO)
