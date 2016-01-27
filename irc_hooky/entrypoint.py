@@ -39,6 +39,8 @@ def handle_github_event(event, context):
     gh = GithubWebhook(event, context)
     gh.process_event()
     irc_msg = gh.irc_message
+    if not irc_msg:
+        return
     logger.info(irc_msg)
     event.update({'irc-message': irc_msg})
     send_sns_msg(event, context)
