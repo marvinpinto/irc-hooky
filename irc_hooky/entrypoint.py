@@ -46,7 +46,7 @@ def handle_github_event(event, context):
     send_sns_msg(event, context)
 
 
-def send_sns_msg(event, context):
+def send_sns_msg(event, context):  # pragma: no cover
     message = {
         "irc-server": event.get('irc-server'),
         "irc-port": event.get('irc-port'),
@@ -61,7 +61,7 @@ def send_sns_msg(event, context):
     logger.info("SNS publish result: %s" % response)
 
 
-def send_irc_msg(event, context):
+def send_irc_msg(event, context):  # pragma: no cover
     logger.debug("Received an SNS event: %s" % json.dumps(event))
 
     # This is going to hurt if there are more than one irc messages needing to
