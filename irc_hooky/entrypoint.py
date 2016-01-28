@@ -20,12 +20,26 @@ def handler(event, context):
         return json_version
 
     resource_path = event.get('resource-path')
-    if resource_path == "/github":
-        handle_github_event(event, context)
-    elif resource_path == "/atlas":
-        handle_atlas_event(event, context)
-
+    handle_event(event, context, resource_path)
     return json_version
+
+
+def handle_event(event, context, resource_path):
+    logger.debug("Received a request on the %s endpoint" % resource_path)
+    hook = None
+    if resource_path == "/github":
+        hook = GithubWebhook(event, context)
+    elif resource_path == "/atlas":
+        hook = AtlasWebhook(event, context)
+    else:
+        return
+    hook.process_event()
+    irc_msg = hook.irc_message
+    if not irc_msg:
+        return
+    logger.info(irc_msg)
+    event.update({'irc-message': irc_msg})
+    send_sns_msg(event, context)
 
 
 def is_sns_event(event):
@@ -35,30 +49,6 @@ def is_sns_event(event):
     if "Records" in event:
         return True
     return False
-
-
-def handle_atlas_event(event, context):
-    logger.debug("Received a request on the /atlas endpoint")
-    atl = AtlasWebhook(event, context)
-    atl.process_event()
-    irc_msg = atl.irc_message
-    if not irc_msg:
-        return
-    logger.info(irc_msg)
-    event.update({'irc-message': irc_msg})
-    send_sns_msg(event, context)
-
-
-def handle_github_event(event, context):
-    logger.debug("Received a request on the /github endpoint")
-    gh = GithubWebhook(event, context)
-    gh.process_event()
-    irc_msg = gh.irc_message
-    if not irc_msg:
-        return
-    logger.info(irc_msg)
-    event.update({'irc-message': irc_msg})
-    send_sns_msg(event, context)
 
 
 def send_sns_msg(event, context):  # pragma: no cover

@@ -77,3 +77,28 @@ class TestEntrypoint(unittest.TestCase):
         self.assertTrue(result['version'])
         self.assertEqual(len(self.mock_send_irc_msg.mock_calls), 0)
         self.assertEqual(len(self.mock_send_sns_msg.mock_calls), 1)
+
+    def test_valid_atlas_event_type(self):
+        payload = {
+            "terraform_alert": {
+                "environment": "user/tf-test",
+                "message": "Queued manually in Atlas",
+                "number": 2,
+                "status": "errored",
+                "url": "https://url.com"
+            }
+        }
+        event = {
+            "X-Hub-Signature": "",
+            "X-Github-Event": "pull_request",
+            "resource-path": "/atlas",
+            "irc-server": "chat.freenode.net",
+            "irc-port": 6667,
+            "irc-channel": "##testtest",
+            "irchooky-sns-arn": "arn",
+            "payload": payload
+        }
+        result = json.loads(handler(event, {}))
+        self.assertTrue(result['version'])
+        self.assertEqual(len(self.mock_send_irc_msg.mock_calls), 0)
+        self.assertEqual(len(self.mock_send_sns_msg.mock_calls), 1)
