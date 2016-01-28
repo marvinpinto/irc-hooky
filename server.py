@@ -10,11 +10,11 @@ HOST_NAME = sys.argv[1]
 PORT_NUMBER = int(sys.argv[2])
 
 
-def handle_github_hook(payload, headers):
+def handle_webhook(payload, headers, resource_path):
     event = {
         "X-Hub-Signature": headers.get("X-Hub-Signature"),
         "X-Github-Event": headers.get("X-Github-Event"),
-        "resource-path": "/github",
+        "resource-path": resource_path,
         "irc-server": "chat.freenode.net",
         "irc-port": 6667,
         "irc-channel": "##testtest",
@@ -50,8 +50,7 @@ class LocalIRCHooky(BaseHTTPServer.BaseHTTPRequestHandler):
         length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(length)
         payload = json.loads(post_data)
-        if (self.path == "/github"):
-            result = handle_github_hook(payload, self.headers)
+        result = handle_webhook(payload, self.headers, self.path)
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()

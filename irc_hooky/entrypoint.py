@@ -1,5 +1,6 @@
 import logging
 from irc_hooky.github.github_webhook import GithubWebhook
+from irc_hooky.atlas.atlas_webhook import AtlasWebhook
 from irc_hooky.irc_client import IRCClient
 import json
 import boto3
@@ -21,6 +22,8 @@ def handler(event, context):
     resource_path = event.get('resource-path')
     if resource_path == "/github":
         handle_github_event(event, context)
+    elif resource_path == "/atlas":
+        handle_atlas_event(event, context)
 
     return json_version
 
@@ -32,6 +35,18 @@ def is_sns_event(event):
     if "Records" in event:
         return True
     return False
+
+
+def handle_atlas_event(event, context):
+    logger.debug("Received a request on the /atlas endpoint")
+    atl = AtlasWebhook(event, context)
+    atl.process_event()
+    irc_msg = atl.irc_message
+    if not irc_msg:
+        return
+    logger.info(irc_msg)
+    event.update({'irc-message': irc_msg})
+    send_sns_msg(event, context)
 
 
 def handle_github_event(event, context):
