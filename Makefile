@@ -37,6 +37,7 @@ install: env
 .PHONY: checkstyle
 checkstyle: install
 	$(ENV)/bin/flake8 --max-complexity 10 server.py
+	$(ENV)/bin/flake8 --max-complexity 10 scripts/deploy.py
 	$(ENV)/bin/flake8 --max-complexity 10 irc_hooky
 	$(ENV)/bin/flake8 --max-complexity 10 tests
 
