@@ -12,7 +12,7 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event, context):
-    json_version = json.dumps({"version": __version__})
+    json_version = {"version": __version__}
     logger.debug("Received event: %s" % event)
 
     if is_sns_event(event):

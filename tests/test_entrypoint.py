@@ -1,5 +1,4 @@
 import unittest
-import json
 from mock import patch
 from irc_hooky.entrypoint import handler
 
@@ -23,8 +22,8 @@ class TestEntrypoint(unittest.TestCase):
                 }
             ]
         }
-        result = json.loads(handler(event, {}))
-        self.assertTrue(result['version'])
+        result = handler(event, {})
+        self.assertTrue('version' in result)
         self.assertEqual(len(self.mock_send_irc_msg.mock_calls), 1)
         self.assertEqual(len(self.mock_send_sns_msg.mock_calls), 0)
 
@@ -39,8 +38,8 @@ class TestEntrypoint(unittest.TestCase):
             "irchooky-sns-arn": "arn",
             "payload": {}
         }
-        result = json.loads(handler(event, {}))
-        self.assertTrue(result['version'])
+        result = handler(event, {})
+        self.assertTrue('version' in result)
         self.assertEqual(len(self.mock_send_irc_msg.mock_calls), 0)
         self.assertEqual(len(self.mock_send_sns_msg.mock_calls), 0)
 
@@ -55,8 +54,8 @@ class TestEntrypoint(unittest.TestCase):
             "irchooky-sns-arn": "arn",
             "payload": {}
         }
-        result = json.loads(handler(event, {}))
-        self.assertTrue(result['version'])
+        result = handler(event, {})
+        self.assertTrue('version' in result)
         self.assertEqual(len(self.mock_send_irc_msg.mock_calls), 0)
         self.assertEqual(len(self.mock_send_sns_msg.mock_calls), 0)
 
@@ -73,8 +72,8 @@ class TestEntrypoint(unittest.TestCase):
                 "hello": "hi"
             }
         }
-        result = json.loads(handler(event, {}))
-        self.assertTrue(result['version'])
+        result = handler(event, {})
+        self.assertTrue('version' in result)
         self.assertEqual(len(self.mock_send_irc_msg.mock_calls), 0)
         self.assertEqual(len(self.mock_send_sns_msg.mock_calls), 1)
 
@@ -98,7 +97,7 @@ class TestEntrypoint(unittest.TestCase):
             "irchooky-sns-arn": "arn",
             "payload": payload
         }
-        result = json.loads(handler(event, {}))
-        self.assertTrue(result['version'])
+        result = handler(event, {})
+        self.assertTrue('version' in result)
         self.assertEqual(len(self.mock_send_irc_msg.mock_calls), 0)
         self.assertEqual(len(self.mock_send_sns_msg.mock_calls), 1)
