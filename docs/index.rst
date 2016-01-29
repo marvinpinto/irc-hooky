@@ -36,7 +36,3 @@ this out!
 
    faq
    deployment
-   lambda
-   sns
-   api_gateway
-   lambda_update
