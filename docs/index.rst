@@ -34,5 +34,6 @@ this out!
    :hidden:
    :maxdepth: 2
 
-   faq
+   overview
    deployment
+   faq
