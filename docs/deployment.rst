@@ -10,6 +10,11 @@ This means that it should not matter if you run it more than once. This also
 means that these same instructions also apply to deploying **updated** versions
 of IRC Hooky.
 
+Note that these instructions are meant to be interchangeable so if you (for
+example) feel the need to create a ``/bitbucket`` endpoint, set the
+``REST_ENDPOINT_NAME`` environment variable to ``bitbucket`` and that should be
+all you need to do.
+
 With all that, here are the base pre-requisites you'll need in order to get
 going:
 
