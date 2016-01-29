@@ -35,7 +35,4 @@ this out!
    :maxdepth: 2
 
    faq
-   lambda
-   sns
-   api_gateway
-   lambda_update
+   deployment
