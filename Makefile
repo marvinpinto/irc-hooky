@@ -69,6 +69,10 @@ lambda: env
 	find . -name "*.pyc" -exec /bin/rm -rf {} \;
 	cd build; zip -Xr ../lambda.zip *
 
+.PHONY: deploy
+deploy: install lambda
+	$(ENV)/bin/python scripts/deploy.py
+
 .PHONY: docs
 docs: install
 	make -C docs html SPHINXBUILD="$(ENV)/bin/sphinx-build" SPHINXOPTS="-W"
