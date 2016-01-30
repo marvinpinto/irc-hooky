@@ -14,7 +14,14 @@ perfectly for this use case!
 __ https://aws.amazon.com/lambda
 __ https://aws.amazon.com/api-gateway
 
-----
+Features
+--------
+
+- :doc:`GitHub webhook events <github>`
+- :doc:`Hashicorp Atlas notifications <atlas>`
+
+More Info
+---------
 
 This website covers the project information for IRC Hooky such as installation,
 development, and so forth.
@@ -36,4 +43,6 @@ this out!
 
    overview
    deployment
+   github
+   atlas
    faq
