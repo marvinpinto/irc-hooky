@@ -18,6 +18,7 @@ Features
 --------
 
 - :doc:`GitHub webhook events <github>`
+- :doc:`Hashicorp Atlas notifications <atlas>`
 
 More Info
 ---------
@@ -43,4 +44,5 @@ this out!
    overview
    deployment
    github
+   atlas
    faq
