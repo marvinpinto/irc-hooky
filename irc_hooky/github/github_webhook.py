@@ -12,6 +12,7 @@ class GithubWebhook(Webhook):
         payload = self.event.get('payload')
         if not payload:
             self.log.error("Received an empty github payload")
+            self.log.error(self.event)
             return
 
         event_type = self.event.get('X-Github-Event')

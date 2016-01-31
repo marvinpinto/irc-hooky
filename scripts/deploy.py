@@ -239,16 +239,15 @@ class DeployIRCHooky(object):
 
     def api_gateway_input_mapping_tamplate(self):
         client = boto3.client('apigateway')
-        request_template = {
-            "X-Hub-Signature": "$input.params().header.get('X-Hub-Signature')",
-            "X-Github-Event": "$input.params().header.get('X-Github-Event')",
-            "resource-path": "$context.resourcePath",
-            "irc-server": "${stageVariables.irc_server}",
-            "irc-port": "${stageVariables.irc_port}",
-            "irc-channel": "${stageVariables.irc_channel}",
-            "irchooky-sns-arn": "${stageVariables.irchooky_sns_arn}",
-            "payload": "$input"
-        }
+        t = []
+        t.append("{\"X-Hub-Signature\": \"$input.params().header.get('X-Hub-Signature')\"")  # NOQA
+        t.append("\"X-Github-Event\": \"$input.params().header.get('X-Github-Event')\"")  # NOQA
+        t.append("\"resource-path\": \"$context.resourcePath\"")
+        t.append("\"irc-server\": \"${stageVariables.irc_server}\"")
+        t.append("\"irc-port\": \"${stageVariables.irc_port}\"")
+        t.append("\"irc-channel\": \"${stageVariables.irc_channel}\"")
+        t.append("\"irchooky-sns-arn\": \"${stageVariables.irchooky_sns_arn}\"")  # NOQA
+        t.append("\"payload\": $input.json('$')}")
         uri = "arn:aws:apigateway:%s:lambda:path/2015-03-31/functions/%s/invocations" % (self.region, self.lambda_function_arn)  # NOQA
         client.put_integration(
             restApiId=self.rest_api_id,
@@ -257,7 +256,7 @@ class DeployIRCHooky(object):
             integrationHttpMethod="POST",
             uri=uri,
             type="AWS",
-            requestTemplates={"application/json": json.dumps(request_template)}
+            requestTemplates={"application/json": ",".join(t)}
         )
         self.log.info("Input request mapping template complete")
 
