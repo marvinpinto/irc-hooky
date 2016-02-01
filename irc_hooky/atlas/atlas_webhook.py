@@ -12,6 +12,7 @@ class AtlasWebhook(Webhook):
         payload = self.event.get('payload')
         if not payload:
             self.log.error("Received an empty atlas payload")
+            self.log.error(self.event)
             return
 
         event_type = self.get_atlas_event_type(payload)
