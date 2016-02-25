@@ -29,4 +29,4 @@ class TestIRCClient(unittest.TestCase):
     def test_send_msg(self):
         self.client.send_msg("message", "#channel")
         self.assertEqual(self.client.main_loop.mock_calls, [call()])
-        self.assertEqual(len(self.client.server.mock_calls), 4)
+        self.assertEqual(len(self.client.server.mock_calls), 8)
