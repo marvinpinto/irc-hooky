@@ -184,6 +184,19 @@ class DeployIRCHooky(object):
             Endpoint=self.lambda_function_arn
         )
 
+    def sns_lambda_permission(self):
+        client = boto3.client('lambda')
+        try:
+            client.add_permission(
+                FunctionName=self.lambda_function_arn,
+                StatementId="%s-sns-lambda-permission-id" % self.lambda_func_name,  # NOQA
+                Action="lambda:*",
+                Principal="sns.amazonaws.com"
+            )
+            self.log.info("SNS -> Lambda permissions added")
+        except botocore.exceptions.ClientError:
+            self.log.info("SNS -> Lambda permissions already in place")
+
     def create_api_gateway(self):
         client = boto3.client('apigateway')
         response = client.get_rest_apis()
@@ -340,6 +353,7 @@ if __name__ == "__main__":
     dpl.attach_lambda_role_policy()
     dpl.create_lambda_function()
     dpl.wire_sns_notifications()
+    dpl.sns_lambda_permission()
     dpl.create_api_gateway()
     dpl.create_api_gateway_endpoint()
     dpl.accept_post_requests_on_endpoint()

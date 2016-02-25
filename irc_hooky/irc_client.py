@@ -43,11 +43,29 @@ class IRCClient(object):
         self.server.add_global_handler("passwdmismatch",
                                        self.irc_on_passwdmismatch)
         self.server.add_global_handler("disconnect", self.irc_on_disconnect)
+        self.server.add_global_handler("nicknameinuse",
+                                       self.irc_on_invalidnickname)
+        self.server.add_global_handler("nickcollision",
+                                       self.irc_on_invalidnickname)
+        self.server.add_global_handler("unavailresource",
+                                       self.irc_on_invalidnickname)
+        self.server.add_global_handler("all_events",
+                                       self.irc_log_all_events,
+                                       -5)
         self.main_loop()
 
     def main_loop(self):  # pragma: no cover
         while not self.has_quit:
             self.client.process_once(0.2)
+
+    def irc_on_invalidnickname(self, connection, event):  # pragma: no cover
+        self.log.info("Nickname %s not allowed" % self.nickname)
+        self.nickname = "%s_" % self.nickname
+        self.log.info("Trying nickname: %s" % self.nickname)
+        connection.nick(self.nickname)
+
+    def irc_log_all_events(self, connection, event):  # pragma: no cover
+        self.log.debug("Received IRC event: %s" % event.type)
 
     def irc_on_join(self, connection, event):  # pragma: no cover
         self.log.info("Joined IRC channel %s" % self.channel)
