@@ -70,9 +70,13 @@ lambda: clean-all
 	find build -name "*.pyc" -exec /bin/rm -rf {} \;
 	cd build; zip -Xr ../lambda.zip *
 
+# Used to deploy a copy to a test API Gateway endpoint
 .PHONY: deploy
-deploy: install lambda
-	$(ENV)/bin/python scripts/deploy.py
+deploy: lambda
+	test -d deploy-env || virtualenv deploy-env
+	deploy-env/bin/pip install requests boto3
+	REST_ENDPOINT_NAME="github" deploy-env/bin/python scripts/deploy.py
+	REST_ENDPOINT_NAME="atlas" deploy-env/bin/python scripts/deploy.py
 
 .PHONY: deploy-demo
 deploy-demo:
