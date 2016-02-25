@@ -5,7 +5,7 @@ from irc_hooky.irc_client import IRCClient
 import json
 import boto3
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 logging.basicConfig()
 logger = logging.getLogger("irchooky")
 logger.setLevel(logging.INFO)
