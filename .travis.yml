@@ -32,7 +32,7 @@ notifications:
     on_failure: "change"
 
 before_deploy:
-  - make lambda
+  - 'make lambda'
   - 'bundle install'
   - 'make docs'
 

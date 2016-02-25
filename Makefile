@@ -58,15 +58,15 @@ ngrok:
 	ngrok http 127.0.0.1:8080
 
 .PHONY: lambda
-lambda: env
-	rm -rf build
+lambda: clean-all
 	mkdir build
-	$(ENV)/bin/pip install -r requirements.txt -t build
-	$(ENV)/bin/pip install --upgrade setuptools -t build
-	$(ENV)/bin/pip install --upgrade distribute -t build
+	pip install -r requirements.txt -t build
+	pip install setuptools==19.6.1 -t build
+	pip install distribute==0.7.3 -t build
 	cp -R irc_hooky build/
-	chmod -R a+r build/*
-	find . -name "*.pyc" -exec /bin/rm -rf {} \;
+	find build -type d -exec chmod ugo+rx {} \;
+	find build -type f -exec chmod ugo+r {} \;
+	find build -name "*.pyc" -exec /bin/rm -rf {} \;
 	cd build; zip -Xr ../lambda.zip *
 
 .PHONY: deploy
