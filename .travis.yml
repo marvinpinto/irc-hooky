@@ -33,7 +33,7 @@ notifications:
 
 before_deploy:
   - 'make lambda'
-  - 'bundle install'
+  - 'gem install s3_website'
   - 'make docs'
 
 deploy:
@@ -46,7 +46,7 @@ deploy:
       repo: 'marvinpinto/irc-hooky'
       tags: true
   - provider: 'script'
-    script: 'bundle exec s3_website push --verbose'
+    script: 's3_website push --verbose'
     skip_cleanup: true
     on:
       branch: 'master'
