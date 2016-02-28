@@ -16,4 +16,9 @@ Send custom webhook-triggered notifications to IRC using a serverless architectu
 
 Documentation available at `https://irchooky.org`__.
 
+Have a read through the blog post `Using a Serverless Architecture to deliver
+IRC Webhook Notifications`__ to get a feel for *why* IRC Hooky was born and to
+understand some of the high-level design decisions behind it.
+
 __ https://irchooky.org
+__ https://disjoint.ca/posts/2016/02/28/using-a-serverless-architecture-to-deliver-irc-webhook-notifications

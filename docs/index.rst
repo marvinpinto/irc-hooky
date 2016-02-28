@@ -11,8 +11,13 @@ and all the maintenance that comes with it.
 The Lambda and API Gateway **pay-only-for-what-you-use** model seems to fit
 perfectly for this use case!
 
+The blog post `Using a Serverless Architecture to deliver IRC Webhook
+Notifications`__ talks a bit more about the *why* of IRC Hooky and explains
+some of the design decisions behind it. I encourage you to read it!
+
 __ https://aws.amazon.com/lambda
 __ https://aws.amazon.com/api-gateway
+__ https://disjoint.ca/posts/2016/02/28/using-a-serverless-architecture-to-deliver-irc-webhook-notifications
 
 Features
 --------
