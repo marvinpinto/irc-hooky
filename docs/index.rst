@@ -46,9 +46,10 @@ this out!
    :hidden:
    :maxdepth: 2
 
+   Home <https://disjoint.ca>
+   GitHub <https://github.com/marvinpinto/irc-hooky>
    overview
    deployment
    github
    atlas
    faq
-   Home Page <https://disjoint.ca>
