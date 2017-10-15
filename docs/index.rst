@@ -51,3 +51,4 @@ this out!
    github
    atlas
    faq
+   Home Page <https://disjoint.ca>
