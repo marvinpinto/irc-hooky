@@ -5,10 +5,11 @@ python:
 
 env:
   global:
-    - secure: "NRMghzfgS0W5UJ3wDNyjAPbhrB42m3A2agP9nRmZTOyqvdbDC3l20wzfZETlF6siJkHA4ive5dWqpNUjUmpg41UJgXLmbWLRH433A3SnQDHDMBn8pP5uw6c3oO5TCzGCFGlMH+YvEOj+7Zwjb8KAbh2rB1wVVhH8hg5seHCidguzB+432PFkkSOACsEFtJ9nDNqAxrYK6MuElBIz0MasJhtNjFXm//10U9D5vKF1TqhLq2ndvPOwsBxt1AytGTfr0Gleyfwg/1yI3RR80aaFjyfkbDT0keWmUr5L1wf8dmAKA+5ZtaH+cC/dgaFHJFbBQnRY2fSO2pI38Cik+7Fjvq9DIPKo8zY30mtpAgiUHi2+qE67ahFZ9cC+3RPAE81rDfk9msX16Ixotl10a8Wmhbhpdr/XrU1NvsOpKXp5Cl4A56+NSpWLnWLgonK2CXTFeIN9D79ReQKUwqpmP3qVmjZj/LiN62De8BBzpQ3VSMQDlfYTlpWnQ7fdv5KS7rktLhujnn4WoGFbGgwD/kdGFYBqvUfH4OLO6wsYIZ0r91ewmrWwSyAcZWt6zw0CD2xEtaVeV16vnGNlfB6UrCNeZFZiaVZkXGDtFgJhdXDXBzR36G4QbcdhmV6fCLCpIoT0EvT/p/sJltehmBj3P4MVdgkYUhYqP/7QizIdqrdczYM="
-    - 'CLOUDFRONT_DISTRIBUTION_ID=E23SJII07PILLC'
-    - 'AWS_ACCESS_KEY_ID=AKIAI6H27S3XIBHPFZIQ'
-    - 'GOOGLE_ANALYTICS_ID=UA-70495014-3'
+    - 'AWS_ACCESS_KEY_ID=AKIAJOOPEXUKZIPG6FIA'
+    # AWS_SECRET_ACCESS_KEY
+    - secure: "CF2LWIFSNn5OB5Wq7EPUJWasZfqtFZK81vxHux5Eo9vQV6uxnWFBxOx89hdfQ4tfh1bU97SaREF1XnJsreRxGavCLcJzxuLvzvVltHl01kGLMwEOfNrpYLPBjWGuh89G3bxppUn7HRWW8YWqLsF+1ztRc3PypHJ11gAomey/lDvjKYiXevWABOyHflga6sU+NBfrbda/ZuliJnWCVSFavjpUcks/DeN2UUDOzLlnqit19srqkTCDbWTfmwOpC58xC7VU0nVDt6mSXwFlpgVlSt1PHCKHB59eK/eZZ98Q5Rsik62i0kUQMio8q52ibYlem/YUp+BdAq6VsKd2DNhuyRbsijEfgb0IUh4MLmShXCbavmu1V7KqDkliVAw1oO3bHcB5z1JMvVnXxAJIEJitTYSlJXb565mWGvhMZMla/By0HVCFPRqgaAPzE3U0xYuTLpPzvdGeMfmx+6M6kySKt0YVGU6j3yCvRsBAUInauO+x6HGmSpel9ePYxsNd+Yb1r8UF2N2ESVM8P3JZ3qUgtQFkWsbxfkd4+imsFejw/ZriiWjJsnsehOZHSL2KiIO1GofcqJ4KH6zhth8uiY4M+4npjEYq65aUeOqONpQ1i1bKnh22+5x2TlhnMO8w5peu459PmVytGSdb5D+r2jiW+oIecay+OLg7zbA2+MCPIH0="
+    - 'CLOUDFRONT_DISTRIBUTION_ID=E1KIBDKGZ4V1S4'
+    - 'GOOGLE_ANALYTICS_ID=UA-70495014-1'
 
 install:
   - pip install -U twine
@@ -25,15 +26,15 @@ after_success:
 
 notifications:
   email: false
-  irc:
-    channels:
-      - secure: "H5jEFtmmt5pWct/4Usr7sVmCm9bt2ffozklsjZEv3GHtJ/WQrsQEHlwsj9ID+nUKeRmCzs/9ZyuJQE5ka8yP4aQJiN8W1ofB/dXyDhSgSyLp8vxL7LEXMTkH0YeqPSpF5u6V1TybUKkyRCAdornfHbI3lWm69hNp2eEJWqlXnebg94ZTDT6H/cbI6G9IAD7b4zKwXXZvGFHDc3s3251hrqVQseK2QlCvjJz1XVl8Lys61zy4bH4jiNAWZV1TaqayGfo82BcPbgoqXXYclNYvEvl3bJwqPGcxUFf/YKjOhJj2R9HxerZ3CBbsN83JA4EW81OfSuG+I74NYQZirq8pKB3bn6vKji+mDnOCEBE32qFrKr7oo0KPmpVO8cPizKsm779FaeoLnVNeRtupTp9g2HhwftboEbzuIdbQWPTRSniHumJnVFmPigf0n8KvCEMBWnxgO5zYfj5tYqccyKrybn2PGmov4SjP0z16Y8BX7QlTeZ2KyF/opejDYFEyRNJidvKy1kp992wXnMWm+rOWYOWPd9IV7MrwO0LG+R06FcAQGzIayukOEyR0P6GsrBn4kH+f1CcuxZEBEg1mqZh5y7EFiej0N+31SPUQ/5HXOB5YLFjFzGeWzeIOgEdFRkPh/6hEbbZ2cbvtOuKs1O9h4Cb0LsgIBDhggOEMAin8stY="
-    on_success: "change"
-    on_failure: "change"
+  webhooks:
+    urls:
+      - secure: "S1WSn6RHODlnu65TsBtPj+9Du3fxNy1Y1AlSOall01ADGn+fMoyBXT8oh0tkF39UKtLnOs7St58Y7r7ow+VrARoN9gM9hd9nkw2e09OnPehqCKXYGFxFqOBDm1Wev+G/O3h4x7V1AYgHQgJgup5dEoFT1aPkXRvtlyHxZFfCJ8bD+2IC4/uZi+WIeydQp6T5vv/v1KXnaoCk9jyBBPTK8g7hkOCvJilPXnpXYKamB2cMmEobodOmd8wjK4dXPRTZcSVbUpMDE1xPzl3pS1j97muDeId2hrfUsafupEyBg08DqGi174sEHV27VtSjCqlA+0+pSgbyLodJy3xb6cFwJFNvJ+WWbuQ2EOsBGuh6loVeXkhirjCLks0vMlsia/NBTraTeyfBHMHItbssS85xPzVwaFSdHPVTuL94g+Fmv7cM5DsffwHDi/iHzSfAOIoj/x85pmydKrBLkuuvbFk8xaw0i52W7/YWYMhjCno9h4qI3C8mCa00O/wq7dbyNBbKVfSKzKXzj/JO3gECSm/ijBQDmiCRnccZGxmC8ZuNVvrxEYuzxBSssPq+s/PZsL3ZGjcBCJ7CAt+yCmy2QV6QIJoussNo6RT8Mn/pJRk88kV/Mj2T3ffR7O7RBitTsUHo6AaQ3C+NlQc2tp87YzMqHgZoOqROH24EEE+n2+tgTsM="
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # options: [always|never|change] default: always
 
 before_deploy:
   - 'make lambda'
-  - 'gem install s3_website'
   - 'make docs'
 
 deploy:
@@ -46,7 +47,7 @@ deploy:
       repo: 'marvinpinto/irc-hooky'
       tags: true
   - provider: 'script'
-    script: 's3_website push --verbose'
+    script: 'gem install s3_website && s3_website push --verbose'
     skip_cleanup: true
     on:
       branch: 'master'
