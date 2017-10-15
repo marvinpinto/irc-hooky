@@ -123,7 +123,7 @@ html_theme_options = {
     'travis_button': True,
     'analytics_id': os.getenv('GOOGLE_ANALYTICS_ID', "no-google-analytics"),
     'extra_nav_links': {
-        "Home Page": 'https://irchooky.org',
+        "Home Page": 'https://disjoint.ca',
         "GitHub": 'https://github.com/marvinpinto/irc-hooky',
         "Issues": 'https://github.com/marvinpinto/irc-hooky/issues',
     }

@@ -63,7 +63,6 @@ lambda: clean-all
 	mkdir build
 	pip install -r requirements.txt -t build
 	pip install setuptools==19.6.1 -t build
-	pip install distribute==0.7.3 -t build
 	cp -R irc_hooky build/
 	find build -type d -exec chmod ugo+rx {} \;
 	find build -type f -exec chmod ugo+r {} \;
