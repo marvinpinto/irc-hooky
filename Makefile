@@ -78,27 +78,6 @@ deploy: lambda
 	REST_ENDPOINT_NAME="github" deploy-env/bin/python scripts/deploy.py
 	REST_ENDPOINT_NAME="atlas" deploy-env/bin/python scripts/deploy.py
 
-.PHONY: deploy-demo
-deploy-demo:
-	rm -f lambda.zip
-	wget `curl -s https://api.github.com/repos/marvinpinto/irc-hooky/releases/latest | grep 'browser_' | cut -d\" -f4`
-	test -d deploy-env || virtualenv deploy-env
-	deploy-env/bin/pip install requests boto3
-	AWS_DEFAULT_REGION="us-east-1" \
-		LAMBDA_FUNCTION_NAME="irc-hooky-demo" \
-		REST_ENDPOINT_NAME="github" \
-		IRCHOOKY_IRC_SERVER="chat.freenode.net" \
-		IRCHOOKY_IRC_PORT="6667" \
-		IRCHOOKY_IRC_CHANNEL="#irchooky" \
-		deploy-env/bin/python scripts/deploy.py
-	AWS_DEFAULT_REGION="us-east-1" \
-		LAMBDA_FUNCTION_NAME="irc-hooky-demo" \
-		REST_ENDPOINT_NAME="atlas" \
-		IRCHOOKY_IRC_SERVER="chat.freenode.net" \
-		IRCHOOKY_IRC_PORT="6667" \
-		IRCHOOKY_IRC_CHANNEL="#irchooky" \
-		deploy-env/bin/python scripts/deploy.py
-
 .PHONY: docs
 docs: install
 	make -C docs html SPHINXBUILD="$(ENV)/bin/sphinx-build" SPHINXOPTS="-W"

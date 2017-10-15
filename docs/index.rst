@@ -29,9 +29,7 @@ More Info
 ---------
 
 This website covers the project information for IRC Hooky such as installation,
-development, and so forth. If you would like to experiment with IRC Hooky
-without deploying this yourself, it has already been set up for you. Give it a
-:doc:`try <demo>`!
+development, and so forth.
 
 Please use `GitHub Issues`__ for filing bug or feature requests, and `Pull
 Requests`__ for submitting code patches.
@@ -49,7 +47,6 @@ this out!
    :maxdepth: 2
 
    overview
-   demo
    deployment
    github
    atlas
