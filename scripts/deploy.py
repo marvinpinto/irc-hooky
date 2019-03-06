@@ -352,8 +352,11 @@ if __name__ == "__main__":
     dpl.create_lambda_policy()
     dpl.create_lambda_role()
     dpl.attach_lambda_role_policy()
-    time.sleep(5)                     # Wait for role policy to take effect before creating lambda function,
-                                      # see https://stackoverflow.com/a/37438525/305559
+
+    # Wait for role policy to take effect before creating lambda function,
+    # see https://stackoverflow.com/a/37438525/305559
+    time.sleep(5)
+
     dpl.create_lambda_function()
     dpl.wire_sns_notifications()
     dpl.sns_lambda_permission()
